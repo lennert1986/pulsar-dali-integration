@@ -20,7 +20,14 @@ jobs:
         run: |
           set -euo pipefail
           cat .bootstrap/chunk*.b64 | tr -d '\n\r' | base64 -d > /tmp/pulsar-dali-integration.zip
+          set +e
           unzip -t /tmp/pulsar-dali-integration.zip
+          rc=$?
+          set -e
+          if [ "$rc" -gt 1 ]; then
+            echo "ZIP archive is corrupt (unzip exit $rc)"
+            exit "$rc"
+          fi
       - name: Unpack integration
         shell: bash
         run: |
