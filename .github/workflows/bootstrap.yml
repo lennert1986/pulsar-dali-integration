@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - ".bootstrap/pulsar-dali-integration.zip"
+      - ".bootstrap/chunk*.b64"
       - ".github/workflows/bootstrap.yml"
 
 permissions:
@@ -15,13 +15,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Unpack integration
+      - name: Rebuild and verify archive
+        shell: bash
         run: |
-          unzip -o .bootstrap/pulsar-dali-integration.zip -d .
+          set -euo pipefail
+          cat .bootstrap/chunk*.b64 | tr -d '\n\r' | base64 -d > /tmp/pulsar-dali-integration.zip
+          unzip -t /tmp/pulsar-dali-integration.zip
+      - name: Unpack integration
+        shell: bash
+        run: |
+          set -euo pipefail
+          unzip -o /tmp/pulsar-dali-integration.zip -d .
           rm -rf .bootstrap
           rm -f .github/workflows/bootstrap.yml
       - name: Commit unpacked files
+        shell: bash
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
