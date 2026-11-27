@@ -32,7 +32,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          set +e
           unzip -o /tmp/pulsar-dali-integration.zip -d .
+          rc=$?
+          set -e
+          if [ "$rc" -gt 1 ]; then
+            echo "ZIP extraction failed (unzip exit $rc)"
+            exit "$rc"
+          fi
           rm -rf .bootstrap
           rm -f .github/workflows/bootstrap.yml
       - name: Commit unpacked files
