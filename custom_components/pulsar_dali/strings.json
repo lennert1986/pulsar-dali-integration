@@ -1,0 +1,201 @@
+{
+  "title": "Pulsar DALI",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Forbind Pulsar DALI",
+        "description": "Vælg om denne Home Assistant skal bruge sin lokale add-on eller forbinde til en fjern Pulsar DALI-server.",
+        "menu_options": {
+          "local": "Lokal add-on",
+          "remote": "Remote server"
+        }
+      },
+      "local": {
+        "title": "Lokal Pulsar DALI add-on",
+        "description": "Bruger Home Assistants interne app-netværk. Token og TLS-fingerprint er ikke nødvendigt.",
+        "data": {
+          "url": "Lokal API-adresse",
+          "scan_on_setup": "Scan alle tre DALI-busser under opsætning"
+        }
+      },
+      "remote": {
+        "title": "Remote Pulsar DALI-server",
+        "description": "Bruger HTTPS med bearer-token og SHA-256 certifikat-pinning. Kopiér token og fingerprint fra Remote-siden i Pulsar DALI add-on’en.",
+        "data": {
+          "host": "Serverens IP-adresse / DNS-navn",
+          "port": "HTTPS-port",
+          "token": "API-token",
+          "fingerprint": "TLS SHA-256 fingerprint",
+          "scan_on_setup": "Scan alle tre DALI-busser under opsætning"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Kan ikke forbinde til Pulsar DALI",
+      "invalid_fingerprint": "Certifikatets fingerprint er ugyldigt",
+      "invalid_token": "API-tokenet er for kort"
+    },
+    "abort": {
+      "already_configured": "Denne Pulsar DALI-controller er allerede konfigureret"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Pulsar DALI indstillinger",
+        "description": "{summary}",
+        "menu_options": {
+          "overview": "Komplet DALI-overblik",
+          "scan": "Scan DALI-busser",
+          "groups": "Rediger armaturgrupper",
+          "addresses": "Commissioning og adresser",
+          "backup": "Opret backup",
+          "finish": "Luk",
+          "scenes": "Rediger DALI-scener",
+          "inputs": "DALI-2 tryk / PIR / lyssensorer",
+          "connection": "Forbindelse"
+        }
+      },
+      "overview": {
+        "title": "DALI-overblik",
+        "description": "{overview}",
+        "menu_options": {
+          "scan": "Scan igen",
+          "groups": "Rediger grupper",
+          "addresses": "Commissioning og adresser",
+          "backup": "Opret backup",
+          "finish": "Luk",
+          "scenes": "Rediger DALI-scener",
+          "inputs": "DALI-2 tryk / PIR / lyssensorer",
+          "connection": "Forbindelse"
+        }
+      },
+      "scan": {
+        "title": "Scan DALI-busser",
+        "description": "Ikke-destruktiv scan af både control gear og DALI-2 control devices. Læser grupper, scener, parametre, tryk/PIR/lyssensor-instances og eventkonfiguration.",
+        "data": {
+          "buses": "Busser der skal scannes"
+        }
+      },
+      "groups": {
+        "title": "Rediger DALI-grupper",
+        "description": "{group_summary}",
+        "data": {
+          "gear": "Armatur / control gear"
+        }
+      },
+      "group_edit": {
+        "title": "Gruppemedlemskab — {gear}",
+        "description": "Aktuelle grupper: {current_groups}\n\nVælg alle grupper, armaturet skal være medlem af.",
+        "data": {
+          "groups": "DALI-grupper"
+        }
+      },
+      "addresses": {
+        "title": "Commissioning og adresser",
+        "description": "{address_summary}",
+        "menu_options": {
+          "detect_conflicts": "Test for adressekonflikter",
+          "change_address": "Ændr short address",
+          "repair_conflict": "Reparer adressekonflikt",
+          "commission_unaddressed": "Commissionér unaddressed gear",
+          "clear_address": "Ryd short address",
+          "overview": "Tilbage til overblik",
+          "finish": "Luk"
+        }
+      },
+      "detect_conflicts": {
+        "title": "Test for duplicate short addresses",
+        "description": "Læser 24-bit random address på alle fundne adresser. Kollision i backward frame markeres som adressekonflikt. Dette ændrer ikke DALI-konfigurationen.",
+        "data": {
+          "buses": "Busser der skal testes"
+        }
+      },
+      "change_address": {
+        "title": "Vælg gear der skal have ny adresse",
+        "description": "Kun gear uden registreret adressekonflikt vises.",
+        "data": {
+          "gear": "Control gear"
+        }
+      },
+      "change_address_edit": {
+        "title": "Ændr short address — {gear}",
+        "description": "Måladressen kontrolleres som ledig først. Der oprettes automatisk backup, den nye adresse skrives, og gammel/ny adresse samt random address verificeres bagefter.",
+        "data": {
+          "new_address": "Ny short address",
+          "confirm": "Jeg vil ændre adressen"
+        }
+      },
+      "repair_conflict": {
+        "title": "Reparer duplicate short address",
+        "description": "Denne funktion ændrer adresser. Der laves automatisk backup. Hvis controlleren kender det oprindelige gears random address fra en tidligere scan, bevares det på den gamle short address. Øvrige gear commissioneres på ledige adresser.",
+        "data": {
+          "gear": "Konflikt",
+          "confirm": "Jeg vil reparere konflikten"
+        }
+      },
+      "commission_unaddressed": {
+        "title": "Commissionér unaddressed control gear",
+        "description": "Bruger INITIALISE → RANDOMISE → SEARCHADDR → COMPARE → PROGRAM SHORT ADDRESS → VERIFY → WITHDRAW. Eksisterende adresser bevares. Der laves automatisk backup.",
+        "data": {
+          "bus": "DALI-bus",
+          "confirm": "Jeg vil commissionere unaddressed gear"
+        }
+      },
+      "clear_address": {
+        "title": "Ryd short address",
+        "description": "Sætter det valgte entydige gear til unaddressed. Brug konflikt-reparation i stedet, hvis flere gear deler adressen. Der laves automatisk backup.",
+        "data": {
+          "gear": "Control gear",
+          "confirm": "Jeg vil rydde short address"
+        }
+      },
+      "backup": {
+        "title": "Opret DALI-konfigurationsbackup",
+        "description": "Gemmer det aktuelle scannede overblik som JSON i add-on'ens persistente /data/backups. Adresseændrende handlinger laver også automatisk backup.",
+        "data": {
+          "buses": "Busser der skal med i backup"
+        }
+      },
+      "scenes": {
+        "title": "Rediger DALI-scener",
+        "description": "Vælg control gear, scene og niveau. Et scene-niveau er gemt individuelt i hvert gear. Markér Fjern for at sætte MASK/ikke medlem.",
+        "data": {
+          "gear": "Armatur / control gear",
+          "scene": "Scene",
+          "level": "Niveau 0-254",
+          "remove": "Fjern gear fra scenen"
+        }
+      },
+      "inputs": {
+        "title": "DALI-2 input devices",
+        "description": "{input_summary}\n\nAnbefalet eventprofil sætter event scheme 2 (device/instance) og aktiverer instancen. For tryk sættes også Pulsars oprindelige eventfilter 0x54. Scanning alene ændrer intet.",
+        "data": {
+          "input": "Input instance",
+          "confirm": "Aktivér anbefalet eventprofil"
+        },
+        "menu_options": {
+          "scan": "Scan DALI-busser",
+          "finish": "Luk"
+        }
+      },
+      "connection": {
+        "title": "Forbindelse",
+        "description": "Opdatér API-forbindelsen. Ved remote drift bruges HTTPS-adresse sammen med token og SHA-256 fingerprint. Lad token/fingerprint være tomme ved lokal drift.",
+        "data": {
+          "url": "API-adresse",
+          "token": "API-token",
+          "fingerprint": "TLS SHA-256 fingerprint"
+        }
+      }
+    },
+    "error": {
+      "action_failed": "DALI-handlingen mislykkedes",
+      "confirmation_required": "Du skal markere bekræftelsen før denne handling kan udføres",
+      "invalid_fingerprint": "Certifikatets fingerprint er ugyldigt"
+    },
+    "abort": {
+      "cannot_connect": "Kan ikke forbinde til Pulsar DALI"
+    }
+  }
+}

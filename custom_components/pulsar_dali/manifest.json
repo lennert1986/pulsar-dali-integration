@@ -1,0 +1,15 @@
+{
+  "domain": "pulsar_dali",
+  "name": "Pulsar DALI",
+  "version": "0.12.0",
+  "config_flow": true,
+  "integration_type": "hub",
+  "iot_class": "local_polling",
+  "codeowners": [
+    "@lennert1986"
+  ],
+  "dependencies": [],
+  "requirements": [],
+  "documentation": "https://github.com/lennert1986/pulsar-dali-integration",
+  "issue_tracker": "https://github.com/lennert1986/pulsar-dali-integration/issues"
+}

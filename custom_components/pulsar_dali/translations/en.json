@@ -1,0 +1,201 @@
+{
+  "title": "Pulsar DALI",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect Pulsar DALI",
+        "description": "Choose whether this Home Assistant connects to its local add-on or to a remote Pulsar DALI server.",
+        "menu_options": {
+          "local": "Local add-on",
+          "remote": "Remote server"
+        }
+      },
+      "local": {
+        "title": "Local Pulsar DALI add-on",
+        "description": "Use the internal Home Assistant app network. No token or TLS fingerprint is required.",
+        "data": {
+          "url": "Local API URL",
+          "scan_on_setup": "Scan all three DALI buses during setup"
+        }
+      },
+      "remote": {
+        "title": "Remote Pulsar DALI server",
+        "description": "Use HTTPS with bearer-token authentication and SHA-256 certificate pinning. Copy the token and fingerprint from the Remote page on the Pulsar DALI add-on.",
+        "data": {
+          "host": "Server IP address / DNS name",
+          "port": "HTTPS port",
+          "token": "API token",
+          "fingerprint": "TLS SHA-256 fingerprint",
+          "scan_on_setup": "Scan all three DALI buses during setup"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to Pulsar DALI",
+      "invalid_fingerprint": "The certificate fingerprint is invalid",
+      "invalid_token": "The API token is too short"
+    },
+    "abort": {
+      "already_configured": "This Pulsar DALI controller is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Pulsar DALI settings",
+        "description": "{summary}",
+        "menu_options": {
+          "overview": "Complete DALI overview",
+          "scan": "Scan DALI buses",
+          "groups": "Edit gear groups",
+          "addresses": "Commissioning and addresses",
+          "backup": "Create backup",
+          "finish": "Close",
+          "scenes": "Edit DALI scenes",
+          "inputs": "DALI-2 buttons / PIR / light sensors",
+          "connection": "Connection"
+        }
+      },
+      "overview": {
+        "title": "DALI overview",
+        "description": "{overview}",
+        "menu_options": {
+          "scan": "Scan again",
+          "groups": "Edit groups",
+          "addresses": "Commissioning and addresses",
+          "backup": "Create backup",
+          "finish": "Close",
+          "scenes": "Edit DALI scenes",
+          "inputs": "DALI-2 buttons / PIR / light sensors",
+          "connection": "Connection"
+        }
+      },
+      "scan": {
+        "title": "Scan DALI buses",
+        "description": "Non-destructive scan of both control gear and DALI-2 control devices. Reads groups, scenes, parameters, button/PIR/light-sensor instances and event configuration.",
+        "data": {
+          "buses": "Buses to scan"
+        }
+      },
+      "groups": {
+        "title": "Edit DALI groups",
+        "description": "{group_summary}",
+        "data": {
+          "gear": "Control gear"
+        }
+      },
+      "group_edit": {
+        "title": "Group membership — {gear}",
+        "description": "Current groups: {current_groups}",
+        "data": {
+          "groups": "DALI groups"
+        }
+      },
+      "addresses": {
+        "title": "Commissioning and addresses",
+        "description": "{address_summary}",
+        "menu_options": {
+          "detect_conflicts": "Detect address conflicts",
+          "change_address": "Change short address",
+          "repair_conflict": "Repair address conflict",
+          "commission_unaddressed": "Commission unaddressed gear",
+          "clear_address": "Clear short address",
+          "overview": "Back to overview",
+          "finish": "Close"
+        }
+      },
+      "detect_conflicts": {
+        "title": "Detect duplicate short addresses",
+        "description": "Reads the 24-bit random address of occupied short addresses. Backward-frame collisions are marked as conflicts. No configuration is changed.",
+        "data": {
+          "buses": "Buses to test"
+        }
+      },
+      "change_address": {
+        "title": "Select gear to move",
+        "description": "Only gear without a detected address conflict is shown.",
+        "data": {
+          "gear": "Control gear"
+        }
+      },
+      "change_address_edit": {
+        "title": "Change short address — {gear}",
+        "description": "The target is checked as free, an automatic backup is made and the address and random identity are verified after writing.",
+        "data": {
+          "new_address": "New short address",
+          "confirm": "I want to change the address"
+        }
+      },
+      "repair_conflict": {
+        "title": "Repair duplicate short address",
+        "description": "This changes addresses and creates an automatic backup. If the previous random address is known, that gear is restored to the original short address and other responders are commissioned to free addresses.",
+        "data": {
+          "gear": "Conflict",
+          "confirm": "I want to repair the conflict"
+        }
+      },
+      "commission_unaddressed": {
+        "title": "Commission unaddressed control gear",
+        "description": "Uses INITIALISE → RANDOMISE → SEARCHADDR → COMPARE → PROGRAM SHORT ADDRESS → VERIFY → WITHDRAW while preserving existing addresses. An automatic backup is created.",
+        "data": {
+          "bus": "DALI bus",
+          "confirm": "I want to commission unaddressed gear"
+        }
+      },
+      "clear_address": {
+        "title": "Clear short address",
+        "description": "Makes the selected unique gear unaddressed. Use conflict repair when several gears share the address. An automatic backup is created.",
+        "data": {
+          "gear": "Control gear",
+          "confirm": "I want to clear the short address"
+        }
+      },
+      "backup": {
+        "title": "Create DALI configuration backup",
+        "description": "Stores the current scanned data as JSON in the add-on persistent /data/backups folder.",
+        "data": {
+          "buses": "Buses to include"
+        }
+      },
+      "scenes": {
+        "title": "Edit DALI scenes",
+        "description": "Select control gear, scene and level. Scene levels are stored individually in each gear. Select Remove to store MASK/not a member.",
+        "data": {
+          "gear": "Luminaire / control gear",
+          "scene": "Scene",
+          "level": "Level 0-254",
+          "remove": "Remove gear from scene"
+        }
+      },
+      "inputs": {
+        "title": "DALI-2 input devices",
+        "description": "{input_summary}\n\nThe recommended event profile sets event scheme 2 (device/instance) and enables the instance. Push-buttons also get the original Pulsar event filter 0x54. Scanning itself changes nothing.",
+        "data": {
+          "input": "Input instance",
+          "confirm": "Enable recommended event profile"
+        },
+        "menu_options": {
+          "scan": "Scan DALI buses",
+          "finish": "Close"
+        }
+      },
+      "connection": {
+        "title": "Connection",
+        "description": "Update the API connection. For remote mode use the HTTPS URL plus token and SHA-256 fingerprint. Leave token/fingerprint empty for local mode.",
+        "data": {
+          "url": "API URL",
+          "token": "API token",
+          "fingerprint": "TLS SHA-256 fingerprint"
+        }
+      }
+    },
+    "error": {
+      "action_failed": "The DALI action failed",
+      "confirmation_required": "You must confirm before this action can run",
+      "invalid_fingerprint": "The certificate fingerprint is invalid"
+    },
+    "abort": {
+      "cannot_connect": "Cannot connect to Pulsar DALI"
+    }
+  }
+}
